@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\auth\GoogleAuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+use App\Models\ActiveCode;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -17,15 +20,30 @@ use RealRashid\SweetAlert\Facades\Alert;
 */
 
 Route::get('/', function () {
-    Alert::success('Welcome','Your login was successful!');
+    return auth()->user()->activeCode()->create([
+        'code' => 123456,
+        'expired_at' => now()->addMinutes(10),
+    ]);
+
+    Alert::success('Welcome', 'Your login was successful!');
     return view('welcome');
 });
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index']       )->        name        ('home');
 
 Route::prefix('auth')->group(function () {
-   Route::get('google', [GoogleAuthController::class,'redirect'])->name('auth.google');
-   Route::get('google/callback', [GoogleAuthController::class,'callback']);
+    Route::get('google', [GoogleAuthController::class, 'redirect'])->name('auth.google');
+    Route::get('google/callback', [GoogleAuthController::class, 'callback']);
+});
+
+Route::prefix('profile')->middleware('auth')->group(function () {
+    Route::get('/', [ProfileController::class, 'index'])->name('profile');
+    Route::prefix('twoFactorAuth')->middleware('auth')->group(function () {
+        Route::get('/', [ProfileController::class, 'mangeTwoFactor'])->name('twoFactorAuth');
+        Route::post('/', [ProfileController::class, 'postManageTwoFactor']);
+        Route::get('phone', [ProfileController::class, 'getPhoneVerify'])->name('twoFactorAuth.phone');
+        Route::post('phone', [ProfileController::class, 'postPhoneVerify']);
+    });
 });
