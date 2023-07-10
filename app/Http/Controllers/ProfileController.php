@@ -23,7 +23,7 @@ class ProfileController extends Controller
     {
         $data = $request->validate([
             'type' =>'required|in:SMS,Off',
-            'phone_number' =>'required_if:type,SMS',
+            'phone_number' =>'required_if:type,SMS|unique:users',
         ]);
 
         if($data['type'] === 'SMS'){
@@ -42,7 +42,7 @@ class ProfileController extends Controller
 
         if($data['type'] === 'Off'){
             $request->user()->update([
-                'two_factor_auth_type' => 'SMS'
+                'two_factor_auth_type' => 'Off'
             ]);
         }
 

@@ -11,29 +11,30 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class GoogleAuthController extends Controller
 {
+    use TwoFactorAuthentication;
     public function redirect()
     {
         return Socialite::driver('google')->redirect();
     }
 
-    public function callback()
+    public function callback(Request $request)
     {
         try {
             $googleUser = Socialite::driver('google')->stateless()->user();
             $user = User::where('email', $googleUser->email)->first();
 
-            if ($user) {
-                auth()->loginUsingId($user->id);
-            } else {
+            if( ! $user){
                 $newUser = User::create([
                     'name' => $googleUser->name,
                     'email' => $googleUser->email,
                     'password' => bcrypt(Str::random())
                 ]);
-                auth()->loginUsingId($newUser->id);
             }
-            Alert::success('Welcome','Your login was successful!');
-            return redirect('/');
+
+            auth()->loginUsingId($user->id);
+
+            Alert::success('well done!', 'Welcome to your user panel');
+            return $this->loggedIn($request, $user) ?: redirect('/');
 
         } catch (\Exception $e) {
             Alert::error('Login failed!','Your login was not successful!');

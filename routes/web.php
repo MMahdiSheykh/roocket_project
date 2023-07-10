@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthTokenController;
 use App\Http\Controllers\auth\GoogleAuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -20,8 +21,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 */
 
 Route::get('/', function () {
-
-    Alert::success('Welcome', 'Your login was successful!');
     return view('welcome');
 });
 
@@ -32,6 +31,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::prefix('auth')->group(function () {
     Route::get('google', [GoogleAuthController::class, 'redirect'])->name('auth.google');
     Route::get('google/callback', [GoogleAuthController::class, 'callback']);
+    Route::get('token', [AuthTokenController::class, 'getToken'])->name('twoFactorAuth.token');
+    Route::post('token', [AuthTokenController::class, 'postToken']);
 });
 
 Route::prefix('profile')->middleware('auth')->group(function () {
