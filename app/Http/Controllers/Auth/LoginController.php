@@ -7,6 +7,7 @@ use App\Models\ActiveCode;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Rules\Recaptcha;
 
 class LoginController extends Controller
 {
@@ -43,5 +44,14 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         return $this->loggedIn($request, $user);
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+            'g-recaptcha-response' => ['required', new Recaptcha],
+        ]);
     }
 }
