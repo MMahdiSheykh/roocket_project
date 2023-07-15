@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Notifications\EmailLoginNotification;
 use Illuminate\Http\Request;
 use App\Models\ActiveCode;
 
@@ -9,7 +10,7 @@ trait TwoFactorAuthentication
 {
     public function loggedIn(Request $request, $user)
     {
-        if($user->isTwoFactorAuthEnabled()){
+        if ($user->isTwoFactorAuthEnabled()) {
             auth()->logout();
 
             $request->session()->flash('auth', [
@@ -18,7 +19,7 @@ trait TwoFactorAuthentication
                 'remember' => $request->has('remember'),
             ]);
 
-            if($user->two_factor_auth_type === 'SMS'){
+            if ($user->two_factor_auth_type === 'SMS') {
 
                 $code = ActiveCode::generateNewCode($user);
 
@@ -28,6 +29,9 @@ trait TwoFactorAuthentication
             return redirect(route('twoFactorAuth.token'));
 
         }
+
+        // sending email login notification for user
+        $user->notify(new EmailLoginNotification);
 
         return false;
     }
