@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\ActiveCode;
+use App\Notifications\ActiveCodeNotification;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -22,15 +23,18 @@ class ProfileController extends Controller
     public function postManageTwoFactor(Request $request)
     {
         $data = $request->validate([
-            'type' =>'required|in:SMS,Off',
-            'phone_number' =>'required_if:type,SMS|unique:users',
+            'type' => 'required|in:SMS,Off',
+            'phone_number' => 'required_if:type,SMS|unique:users',
         ]);
 
-        if($data['type'] === 'SMS'){
-            if($request->user()->phone_number !== $data['phone_number']){
+        if ($data['type'] === 'SMS') {
+            if ($request->user()->phone_number !== $data['phone_number']) {
 
                 $code = ActiveCode::generateNewCode($request->user());
                 $request->session()->flash('phone_number', $data['phone_number']);
+
+                // send message
+                $request->user()->notify(new ActiveCodeNotification($code));
 
                 return redirect(route('twoFactorAuth.phone'));
             } else {
@@ -40,7 +44,7 @@ class ProfileController extends Controller
             }
         }
 
-        if($data['type'] === 'Off'){
+        if ($data['type'] === 'Off') {
             $request->user()->update([
                 'two_factor_auth_type' => 'Off'
             ]);
@@ -51,7 +55,7 @@ class ProfileController extends Controller
 
     public function getPhoneVerify(Request $request)
     {
-        if( ! $request->session()->has('phone_number')){
+        if (!$request->session()->has('phone_number')) {
             return redirect(route('twoFactorAuth'));
         }
 
@@ -67,24 +71,24 @@ class ProfileController extends Controller
             'token' => 'required'
         ]);
 
-        if( ! $request->session()->has('phone_number')){
+        if (!$request->session()->has('phone_number')) {
             return redirect(route('twoFactorAuth'));
         }
 
 
         $codeStatus = ActiveCode::verifyCode($request->token, $request->user());
 
-        if($codeStatus) {
+        if ($codeStatus) {
             $request->user()->activeCode()->delete();
             $request->user()->update([
                 'phone_number' => $request->session()->get('phone_number'),
                 'two_factor_auth_type' => 'SMS',
             ]);
 
-            Alert::success('Well done!','Your phone number has been successfully verified')->persistent(true)->autoClose(3000);
+            Alert::success('Well done!', 'Your phone number has been successfully verified')->persistent(true)->autoClose(3000);
 
         } else {
-            Alert::error('Oops!','Your phone number could not be verified, please try again');
+            Alert::error('Oops!', 'Your phone number could not be verified, please try again');
         }
 
         return redirect(route('twoFactorAuth'));
