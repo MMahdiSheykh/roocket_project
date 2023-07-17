@@ -1,7 +1,7 @@
 <?php
 
 Route::get('/', function() {
-    return view('welcome');
+    return view('admin.master');
 });
 
 Route::get('hi', function($value = 'hi') {
