@@ -1,9 +1,8 @@
 <?php
+use App\Http\Controllers\Admin\UsersController;
 
 Route::get('/', function() {
-    return view('admin.master');
+    return view('admin.index');
 });
 
-Route::get('hi', function($value = 'hi') {
-    return $value;
-});
+Route::resource('users', UsersController::class);
