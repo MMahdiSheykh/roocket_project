@@ -1,7 +1,8 @@
 @component('admin.layouts.content', ['title' => 'Users panel'])
     @slot('breadcrumb')
+        <li class="breadcrumb-item"><a href="/admin/users/create">Create user</a></li>
         <li class="breadcrumb-item"><a href="/admin">Control panel</a></li>
-        <li class="breadcrumb-item active">Users list</li>
+        <li class="breadcrumb-item active">Users panel</li>
     @endslot
 
     <div class="row">
@@ -11,9 +12,6 @@
                     <h3 class="card-title">Users list</h3>
 
                     <div class="card-tools d-flex align-items-center">
-                        <div class="btn-group-sm mr-3">
-                            <a href="{{ route('admin.users.create') }}" class="btn btn-info">Create new user</a>
-                        </div>
                         <div class="input-group input-group-sm" style="width: 200px;">
                             <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
@@ -25,7 +23,7 @@
                         </div>
                     </div>
                 </div>
-                              
+
 
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">

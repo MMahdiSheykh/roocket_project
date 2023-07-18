@@ -1,7 +1,8 @@
 @component('admin.layouts.content', ['title' => 'Create new user'])
     @slot('breadcrumb')
+        <li class="breadcrumb-item active">Create user</li>
         <li class="breadcrumb-item"><a href="/admin">Control panel</a></li>
-        <li class="breadcrumb-item"><a href="/admin/users">Users list</a></li>
+        <li class="breadcrumb-item"><a href="/admin/users">Users panel</a></li>
     @endslot
 
     <div class="row">
