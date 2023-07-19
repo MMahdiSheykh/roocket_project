@@ -58,17 +58,36 @@ class UsersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return view('admin.users.edit', ['user' => $user]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        // validating date
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+        ]);
+
+        // if admin entered password, validating password here
+        if (!is_null($request->password)) {
+            $data['password'] = $request->validate([
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+        }
+
+        $user->update($data);
+
+        if ($request->has('verify')) {
+            $user->markEmailAsVerified();
+        }
+
+        return redirect(route('admin.users.index'));
     }
 
     /**

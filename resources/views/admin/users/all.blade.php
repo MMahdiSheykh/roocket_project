@@ -53,9 +53,13 @@
                                             <span class="badge badge-danger">Not verified</span>
                                         </td>
                                     @endif
-                                    <td>
-                                        <a href="#" class="btn btn-outline-primary">Edit</a>
-                                        <a href="#" class="btn btn-outline-danger">Delete</a>
+                                    <td class="d-flex">
+                                        <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}" class="btn btn-md btn-outline-primary mr-2">Edit</a>
+                                        <form action="{{ route('admin.users.destroy', ['user' => $user->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-md btn-outline-danger" type="submit">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             </tbody>
