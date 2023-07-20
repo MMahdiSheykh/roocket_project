@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\Rule;
-use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
 
 class Recaptcha implements Rule
 {
@@ -22,15 +22,12 @@ public function passes($attribute, $value)
 {
 
     try{
-        $client = new Client();
-        $response = $client->request('POST', 'https://www.google.com/recaptcha/api/siteverify', [
-            'form_params' => [
-                'secret' => env('GOOGLE_RECAPTCHA_SECRET_KEY'),
-                'response' => $value,
-                'remoteip' => request()->ip(),
-            ]
+        $response = Http::post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => env('GOOGLE_RECAPTCHA_SECRET_KEY'),
+            'response' => $value,
+            'remoteip' => request()->ip(),
         ]);
-
+        dd($response->json());
         $response = json_decode($response->getBody());
 
         return $response->success;
