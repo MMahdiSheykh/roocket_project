@@ -12,15 +12,22 @@
                     <h3 class="card-title">Users list</h3>
 
                     <div class="card-tools d-flex align-items-center">
-                        <div class="input-group input-group-sm" style="width: 200px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default" style="height: 31px">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
+                        <div>
+                            <a href="{{ request()->fullUrlWithQuery(['admin' => 1]) }}" class="btn btn-primary btn-sm mr-1">Admins</a>
+                            <a href="{{ request()->fullUrlWithQuery(['staff' => 1]) }}" class="btn btn-primary btn-sm mr-3">Staffs</a>
                         </div>
+                        <form action="" method="get">
+                            <div class="input-group input-group-sm" style="width: 200px;">
+                                <input type="text" name="search" class="form-control float-right" placeholder="Search"
+                                    value="{{ request('search') }}">
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default" style="height: 31px">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -54,11 +61,13 @@
                                         </td>
                                     @endif
                                     <td class="d-flex">
-                                        <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}" class="btn btn-md btn-outline-primary mr-2">Edit</a>
-                                        <form action="{{ route('admin.users.destroy', ['user' => $user->id]) }}" method="POST">
+                                        <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}"
+                                            class="btn btn-md btn-outline-primary mr-2">Edit</a>
+                                        <form action="{{ route('admin.users.destroy', ['user' => $user->id]) }}"
+                                            method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-md btn-outline-danger" type="submit">Delete</button>
+                                            <button class="btn btn-outline-danger" type="submit">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -67,6 +76,9 @@
                     </table>
                 </div>
                 <!-- /.card-body -->
+                <div class="card-footer">
+                    {{ $users->render() }}
+                </div>
             </div>
             <!-- /.card -->
         </div>

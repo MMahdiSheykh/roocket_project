@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UsersController extends Controller
 {
@@ -13,8 +15,33 @@ class UsersController extends Controller
      */
     public function index()
     {
-        // get all users and send it for current view
+        // get all users
         $users = User::paginate(20);
+
+        // search box
+        if ($result = request('search')) {
+            $users = User::query();
+
+            $users->where('email', 'LIKE', "%{$result}%")
+                ->orWhere('name', 'LIKE', "%{$result}%")
+                ->orWhere('id', $result);
+
+            $users = $users->paginate(20);
+        }
+
+        // show admins or staffs
+        if (request('admin') || request('staff')) {
+            $users = User::query();
+
+            if (request('admin')) {
+                $users->where('is_admin', '=', 1);
+                $users = $users->paginate(20);
+            } else {
+                $users->where('is_staff', 1);
+                $users = $users->paginate(20);
+            }
+        }
+
         return view('admin.users.all', compact('users'));
     }
 
@@ -33,17 +60,18 @@ class UsersController extends Controller
     {
         // validating date
         $data = $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
         $user = User::create($data);
 
-        if($request->has('verify')){
+        if ($request->has('verify')) {
             $user->markEmailAsVerified();
         }
 
+        Alert::success('Well done!', 'The user created successfully');
         return redirect(route('admin.users.index'));
     }
 
@@ -87,14 +115,17 @@ class UsersController extends Controller
             $user->markEmailAsVerified();
         }
 
+        Alert::success('Well done!', 'The user updated successfully');
         return redirect(route('admin.users.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        Alert::success('Well done!', 'The user deleted successfully');
+        return redirect(route('admin.users.index'));
     }
 }
