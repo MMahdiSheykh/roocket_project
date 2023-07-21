@@ -13,13 +13,15 @@
 
                     <div class="card-tools d-flex align-items-center">
                         <div>
-                            <a href="{{ request()->fullUrlWithQuery(['admin' => 1]) }}" class="btn btn-primary btn-sm mr-1">Admins</a>
-                            <a href="{{ request()->fullUrlWithQuery(['staff' => 1]) }}" class="btn btn-primary btn-sm mr-3">Staffs</a>
+                            <a href="{{ request()->fullUrlWithQuery(['admin' => 1]) }}"
+                               class="btn btn-primary btn-sm mr-1">Admins</a>
+                            <a href="{{ request()->fullUrlWithQuery(['staff' => 1]) }}"
+                               class="btn btn-primary btn-sm mr-3">Staffs</a>
                         </div>
                         <form action="" method="get">
                             <div class="input-group input-group-sm" style="width: 200px;">
                                 <input type="text" name="search" class="form-control float-right" placeholder="Search"
-                                    value="{{ request('search') }}">
+                                       value="{{ request('search') }}">
 
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default" style="height: 31px">
@@ -36,41 +38,43 @@
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap text-center">
                         <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Email status</th>
-                                <th>Actions</th>
-                            </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Email status</th>
+                            <th>Actions</th>
+                        </tr>
                         </thead>
                         @foreach ($users as $user)
                             <tbody>
-                                <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    @if ($user->email_verified_at != null)
-                                        <td>
+                            <tr>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                @if ($user->email_verified_at != null)
+                                    <td>
                                             <span class="badge badge-success">Verified at
                                                 {{ $user->email_verified_at->format('Y/m/d') }}</span>
-                                        </td>
-                                    @else
-                                        <td>
-                                            <span class="badge badge-danger">Not verified</span>
-                                        </td>
-                                    @endif
-                                    <td class="d-flex">
-                                        <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}"
-                                            class="btn btn-md btn-outline-primary mr-2">Edit</a>
-                                        <form action="{{ route('admin.users.destroy', ['user' => $user->id]) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-outline-danger" type="submit">Delete</button>
-                                        </form>
                                     </td>
-                                </tr>
+                                @else
+                                    <td>
+                                        <span class="badge badge-danger">Not verified</span>
+                                    </td>
+                                @endif
+                                <td class="d-flex">
+                                    @can('edit', $user)
+                                        <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}"
+                                           class="btn btn-md btn-outline-primary mr-2">Edit</a>
+                                    @endcan
+                                    <form action="{{ route('admin.users.destroy', ['user' => $user->id]) }}"
+                                          method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-outline-danger" type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
                             </tbody>
                         @endforeach
                     </table>

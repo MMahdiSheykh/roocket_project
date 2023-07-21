@@ -88,6 +88,9 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
+        // policy
+        $this->authorize('edit', $user);
+
         return view('admin.users.edit', ['user' => $user]);
     }
 
