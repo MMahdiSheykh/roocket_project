@@ -69,8 +69,8 @@
                 </li>
 
                 {{-- Access modifying panel--}}
-                <li class="nav-item {{ activeRoute(['admin.permission.index', 'admin.permission.create'], 'menu-open') }}">  
-                    <a href="#" class="nav-link {{ activeRoute(['admin.permission.index', 'admin.permission.create'], 'active') }}">
+                <li class="nav-item {{ activeRoute(['admin.permission.index', 'admin.permission.create', 'admin.rule.index'], 'menu-open') }}">  
+                    <a href="#" class="nav-link {{ activeRoute(['admin.permission.index', 'admin.permission.create', 'admin.rule.index'], 'active') }}">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>
                             Access modifying
@@ -82,6 +82,12 @@
                             <a href="{{ route('admin.permission.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.permission.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>All accesses</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.rule.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.rule.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All positions</p>
                             </a>
                         </li>
                         <li class="nav-item">
