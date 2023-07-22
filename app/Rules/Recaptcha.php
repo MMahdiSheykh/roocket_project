@@ -18,24 +18,20 @@ class Recaptcha implements Rule
         //
     }
 
-public function passes($attribute, $value)
-{
-
-    try{
-        $response = Http::post('https://www.google.com/recaptcha/api/siteverify', [
+    public function passes($attribute, $value)
+    {
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
             'secret' => env('GOOGLE_RECAPTCHA_SECRET_KEY'),
             'response' => $value,
             'remoteip' => request()->ip(),
         ]);
-        dd($response->json());
-        $response = json_decode($response->getBody());
 
-        return $response->success;
+        // throw exceptions if exist
+        $response->throw();
 
-        } catch (\Exception $e){
-            $e->getMessage();
-            return false;
-        }
+        $response = $response->json();
+
+        return $response['success'];
     }
 
     public function message()

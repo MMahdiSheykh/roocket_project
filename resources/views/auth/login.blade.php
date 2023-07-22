@@ -44,7 +44,7 @@
 
                         <div class="form-group col-md-8 offset-md-4 mb-3">
 
-                            @recaptcha
+                            <x-recaptcha :hasError="$errors->has('g-recaptcha-response')"></x-recaptcha>
 
                         @error('g-recaptcha-response')
                             <span class="invalid-feedback" role="alert">
