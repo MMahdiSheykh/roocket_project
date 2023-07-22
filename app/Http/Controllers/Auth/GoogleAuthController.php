@@ -31,6 +31,10 @@ class GoogleAuthController extends Controller
                 ]);
             }
 
+            if(!$user->hasVerifiedEmail()) {
+                $user->markEmailAsVerified();
+            }
+
             auth()->loginUsingId($user->id);
 
             Alert::success('well done!', 'Welcome to your user panel');
