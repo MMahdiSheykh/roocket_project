@@ -21,7 +21,11 @@ use RealRashid\SweetAlert\Facades\Alert;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if(Gate::allows('delete-user')){
+        return view('welcome');
+
+    }
+    return ';ljdfl;ksj;kj';
 });
 
 Auth::routes(['verify' => true]);

@@ -23,14 +23,14 @@
                             <label for="inputName3" class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-10">
                                 <input type="text" name="name" class="form-control" id="inputEmail3"
-                                       placeholder="Enter name of user" value="{{ $user->name }}">
+                                       placeholder="Enter name of user" value="{{ old('name', $user->name) }}">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-10">
                                 <input type="email" name="email" class="form-control" id="inputEmail3"
-                                       placeholder="Enter email of user" value="{{ $user->email }}">
+                                       placeholder="Enter email of user" value="{{ old('email', $user->email) }}">
                             </div>
                         </div>
                         <div class="form-group row">

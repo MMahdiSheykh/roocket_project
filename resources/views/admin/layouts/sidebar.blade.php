@@ -65,10 +65,29 @@
                                 <p>Create user</p>
                             </a>
                         </li>
+                    </ul>
+                </li>
+
+                {{-- Access modifying panel--}}
+                <li class="nav-item {{ activeRoute(['admin.permission.index', 'admin.permission.create'], 'menu-open') }}">  
+                    <a href="#" class="nav-link {{ activeRoute(['admin.permission.index', 'admin.permission.create'], 'active') }}">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>
+                            Access modifying
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="./index3.html" class="nav-link">
+                            <a href="{{ route('admin.permission.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.permission.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Access modifying</p>
+                                <p>All accesses</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.permission.create') }}" class="nav-link {{ Route::currentRouteName() == 'admin.permission.create' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create permission</p>
                             </a>
                         </li>
                     </ul>
