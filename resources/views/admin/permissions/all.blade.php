@@ -1,4 +1,4 @@
-@component('admin.layouts.content', ['title' => 'Accesses'])
+@component('admin.layouts.content', ['title' => 'Permissions'])
     @slot('breadcrumb')
         <li class="breadcrumb-item"><a href="/admin/users/create">Create user</a></li>
         <li class="breadcrumb-item"><a href="/admin">Control panel</a></li>
@@ -9,12 +9,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Accesses</h3>
+                    <h3 class="card-title">List of permissions</h3>
 
                     <div class="card-tools d-flex align-items-center">
-                        <div>
-                            <a href="{{ route('admin.permission.create') }}" class="btn btn-primary btn-sm mr-1">Create new access</a>
-                        </div>
                         <form action="" method="get">
                             <div class="input-group input-group-sm" style="width: 200px;">
                                 <input type="text" name="search" class="form-control float-right" placeholder="Search"

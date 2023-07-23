@@ -70,12 +70,37 @@
                         </ul>
                     </li>
                 @endcan
-                {{-- Access modifying panel--}}
-                <li class="nav-item {{ activeRoute(['admin.permission.index', 'admin.permission.create', 'admin.rule.index'], 'menu-open') }}">
-                    <a href="#" class="nav-link {{ activeRoute(['admin.permission.index', 'admin.permission.create', 'admin.rule.index'], 'active') }}">
+                {{-- Rules panel--}}
+                <li class="nav-item {{ activeRoute(['admin.rule.index', 'admin.rule.create'], 'menu-open') }}">
+                    <a href="#" class="nav-link {{ activeRoute(['admin.rule.index', 'admin.rule.create'], 'active') }}">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>
-                            Access modifying
+                            Positions
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.rule.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.rule.index' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All positions</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.rule.create') }}" class="nav-link {{ Route::currentRouteName() == 'admin.rule.create' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create position</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {{-- Permissions panel--}}
+                <li class="nav-item {{ activeRoute(['admin.permission.index', 'admin.permission.create'], 'menu-open') }}">
+                    <a href="#" class="nav-link {{ activeRoute(['admin.permission.index', 'admin.permission.create'], 'active') }}">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>
+                            Permissions
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -83,13 +108,7 @@
                         <li class="nav-item">
                             <a href="{{ route('admin.permission.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.permission.index' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>All accesses</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.rule.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.rule.index' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All positions</p>
+                                <p>All permissions</p>
                             </a>
                         </li>
                         <li class="nav-item">

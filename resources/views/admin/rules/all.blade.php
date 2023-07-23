@@ -9,12 +9,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Positions</h3>
+                    <h3 class="card-title">List of positions</h3>
 
                     <div class="card-tools d-flex align-items-center">
-                        <div>
-                            <a href="{{ route('admin.rule.create') }}" class="btn btn-primary btn-sm mr-1">Create new position</a>
-                        </div>
                         <form action="" method="get">
                             <div class="input-group input-group-sm" style="width: 200px;">
                                 <input type="text" name="search" class="form-control float-right" placeholder="Search"
