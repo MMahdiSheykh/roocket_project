@@ -46,7 +46,7 @@ class RuleController extends Controller
         // validating data
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255', 'unique:rules'],
-            'label' => ['string', 'max:255'],
+            'label' => ['max:255'],
             'permissions' => ['required', 'array'],
         ]);
 
@@ -73,10 +73,12 @@ class RuleController extends Controller
         // validating date
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255', \Illuminate\Validation\Rule::unique('rules')->ignore($rule->id)],
-            'label' => ['string', 'max:255'],
+            'label' => ['max:255'],
+            'permissions' => ['required', 'array'],
         ]);
 
         $rule->update($data);
+        $rule->permissions()->sync($data['permissions']);
 
         Alert::success('Well done!', 'The position updated successfully');
         return redirect(route('admin.rule.index'));

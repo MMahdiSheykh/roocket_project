@@ -5,6 +5,14 @@
         <li class="breadcrumb-item"><a href="/admin/users">Users panel</a></li>
     @endslot
 
+    @slot('script')
+        <script>
+            $('#permissions').select2({
+                'placeholder' : 'Please select your positions'
+            })
+        </script>
+    @endslot
+
     <div class="row">
         <div class="col-lg-12">
             @include('admin.layouts.errors')
@@ -33,7 +41,7 @@
                         </div>
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 col-form-label">permissions</label>
-                            <select class="form-control" name="permissions[]" id="" multiple>
+                            <select class="form-control" name="permissions[]" id="permissions" multiple>
                                 @foreach (App\Models\Permission::all() as $permission)
                                     <option value="{{ $permission->id }}">{{ $permission->name }} - {{ $permission->label }}</option>
                                 @endforeach

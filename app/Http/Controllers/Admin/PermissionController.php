@@ -46,7 +46,7 @@ class PermissionController extends Controller
         // validating date
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255', 'unique:permissions'],
-            'label' => ['string', 'max:255'],
+            'label' => ['max:255'],
         ]);
 
         Permission::create($data);
@@ -79,7 +79,7 @@ class PermissionController extends Controller
         // validating date
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255', Rule::unique('permissions')->ignore($permission->id)],
-            'label' => ['string', 'max:255'],
+            'label' => ['max:255'],
         ]);
 
         $permission->update($data);

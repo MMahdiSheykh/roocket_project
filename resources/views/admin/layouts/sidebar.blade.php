@@ -43,33 +43,35 @@
                 </li>
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                <li class="nav-item {{ activeRoute(['admin.users.index', 'admin.users.create'], 'menu-open') }}">  
-                    <a href="#" class="nav-link {{ activeRoute(['admin.users.index', 'admin.users.create'], 'active') }}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            Users dashboard
-                            {{-- Users panel --}}
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.users.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.users.index' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Users list</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.users.create') }}" class="nav-link {{ Route::currentRouteName() == 'admin.users.create' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Create user</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
+                @can('show-users')
+                    <li class="nav-item {{ activeRoute(['admin.users.index', 'admin.users.create'], 'menu-open') }}">
+                        <a href="#" class="nav-link {{ activeRoute(['admin.users.index', 'admin.users.create'], 'active') }}">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Users dashboard
+                                {{-- Users panel --}}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.users.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.users.index' ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Users list</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.users.create') }}" class="nav-link {{ Route::currentRouteName() == 'admin.users.create' ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create user</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
                 {{-- Access modifying panel--}}
-                <li class="nav-item {{ activeRoute(['admin.permission.index', 'admin.permission.create', 'admin.rule.index'], 'menu-open') }}">  
+                <li class="nav-item {{ activeRoute(['admin.permission.index', 'admin.permission.create', 'admin.rule.index'], 'menu-open') }}">
                     <a href="#" class="nav-link {{ activeRoute(['admin.permission.index', 'admin.permission.create', 'admin.rule.index'], 'active') }}">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>

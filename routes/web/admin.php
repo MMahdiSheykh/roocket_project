@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserPermissionController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RuleController;
@@ -9,5 +10,7 @@ Route::get('/', function() {
 });
 
 Route::resource('users', UsersController::class);
+Route::get('users/{user}/permission', [UserPermissionController::class, 'create'])->name('users.permissions');
+Route::post('users/{user}/permission', [UserPermissionController::class, 'store'])->name('users.permissions.store');
 Route::resource('permission', PermissionController::class);
 Route::resource('rule', RuleController::class);

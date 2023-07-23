@@ -63,16 +63,24 @@
                                     </td>
                                 @endif
                                 <td class="d-flex">
-                                    @can('edit', $user)
-                                        <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}"
-                                           class="btn btn-md btn-outline-primary mr-2">Edit</a>
+                                    @can('staff-user-permission')
+                                    @if(($user->is_staff == 1) or ($user->is_admin == 1))
+                                    <a href="{{ route('admin.users.permissions', $user->id) }}"
+                                       class="btn btn-md btn-outline-secondary mr-2">Permissions</a>
+                                    @endif
                                     @endcan
-                                    <form action="{{ route('admin.users.destroy', ['user' => $user->id]) }}"
-                                          method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-outline-danger" type="submit">Delete</button>
-                                    </form>
+                                    @can('edit-users')
+                                    <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}"
+                                       class="btn btn-md btn-outline-primary mr-2">Edit</a>
+                                    @endcan
+                                    @can('delete-users')
+                                            <form action="{{ route('admin.users.destroy', ['user' => $user->id]) }}"
+                                                  method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-outline-danger" type="submit">Delete</button>
+                                            </form>
+                                    @endcan
                                 </td>
                             </tr>
                             </tbody>
