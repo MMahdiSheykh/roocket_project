@@ -145,6 +145,39 @@
                         </ul>
                     </li>
                 @endcanany
+
+                {{-- Products panel --}}
+                <li class="nav-item {{ activeRoute(['admin.product.index', 'admin.product.create'], 'menu-open') }}">
+                    <a href="#"
+                       class="nav-link {{ activeRoute(['admin.product.index', 'admin.product.create'], 'active') }}">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>
+                            Products
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+{{--                        @can('show-permission')--}}
+                            <li class="nav-item">
+                                <a href="{{ route('admin.product.index') }}"
+                                   class="nav-link {{ Route::currentRouteName() == 'admin.product.index' ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All products</p>
+                                </a>
+                            </li>
+{{--                        @endcan--}}
+{{--                        @can('create-permission')--}}
+                            <li class="nav-item">
+                                <a href="{{ route('admin.product.create') }}"
+                                   class="nav-link {{ Route::currentRouteName() == 'admin.product.create' ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Create products</p>
+                                </a>
+                            </li>
+{{--                        @endcan--}}
+                    </ul>
+                </li>
+
                 <li class="nav-item">
                     <a href="pages/widgets.html" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
