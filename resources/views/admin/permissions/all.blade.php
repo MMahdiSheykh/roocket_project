@@ -15,7 +15,7 @@
                         <form action="" method="get">
                             <div class="input-group input-group-sm" style="width: 200px;">
                                 <input type="text" name="search" class="form-control float-right" placeholder="Search"
-                                    value="{{ request('search') }}">
+                                       value="{{ request('search') }}">
 
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default" style="height: 31px">
@@ -32,28 +32,32 @@
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap text-center">
                         <thead>
-                            <tr>
-                                <th>Access type</th>
-                                <th>Description</th>
-                                <th>Actions</th>
-                            </tr>
+                        <tr>
+                            <th>Access type</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
                         </thead>
                         @foreach ($permissions as $permission)
                             <tbody>
-                                <tr>
-                                    <td>{{ $permission->name }}</td>
-                                    <td>{{ $permission->label }}</td>
-                                    <td class="d-flex">
+                            <tr>
+                                <td>{{ $permission->name }}</td>
+                                <td>{{ $permission->label }}</td>
+                                <td class="d-flex">
+                                    @can('edit-permission')
                                         <a href="{{ route('admin.permission.edit', $permission->id) }}"
-                                            class="btn btn-md btn-outline-primary mr-2">Edit</a>
+                                           class="btn btn-md btn-outline-primary mr-2">Edit</a>
+                                    @endcan
+                                    @can('delete-permission')
                                         <form action="{{ route('admin.permission.destroy', $permission->id) }}"
-                                            method="POST">
+                                              method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-outline-danger" type="submit">Delete</button>
                                         </form>
-                                    </td>
-                                </tr>
+                                    @endcan
+                                </td>
+                            </tr>
                             </tbody>
                         @endforeach
                     </table>

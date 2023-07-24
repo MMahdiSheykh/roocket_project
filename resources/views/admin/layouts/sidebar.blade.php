@@ -2,7 +2,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
         <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-            style="opacity: .8">
+             style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
 
@@ -22,7 +22,7 @@
         <div class="form-inline">
             <div class="input-group" data-widget="sidebar-search">
                 <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                    aria-label="Search">
+                       aria-label="Search">
                 <div class="input-group-append">
                     <button class="btn btn-sidebar">
                         <i class="fas fa-search fa-fw"></i>
@@ -44,9 +44,10 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-                @can('show-users')
+                @canany(['show-user', 'create-user'])
                     <li class="nav-item {{ activeRoute(['admin.users.index', 'admin.users.create'], 'menu-open') }}">
-                        <a href="#" class="nav-link {{ activeRoute(['admin.users.index', 'admin.users.create'], 'active') }}">
+                        <a href="#"
+                           class="nav-link {{ activeRoute(['admin.users.index', 'admin.users.create'], 'active') }}">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Users dashboard
@@ -55,70 +56,95 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('admin.users.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.users.index' ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Users list</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.users.create') }}" class="nav-link {{ Route::currentRouteName() == 'admin.users.create' ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Create user</p>
-                                </a>
-                            </li>
+                            @can('show-user')
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.users.index') }}"
+                                       class="nav-link {{ Route::currentRouteName() == 'admin.users.index' ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Users list</p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('create-user')
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.users.create') }}"
+                                       class="nav-link {{ Route::currentRouteName() == 'admin.users.create' ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Create user</p>
+                                    </a>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
-                @endcan
+                @endcanany
+
                 {{-- Rules panel--}}
-                <li class="nav-item {{ activeRoute(['admin.rule.index', 'admin.rule.create'], 'menu-open') }}">
-                    <a href="#" class="nav-link {{ activeRoute(['admin.rule.index', 'admin.rule.create'], 'active') }}">
-                        <i class="nav-icon fas fa-edit"></i>
-                        <p>
-                            Positions
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.rule.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.rule.index' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All positions</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.rule.create') }}" class="nav-link {{ Route::currentRouteName() == 'admin.rule.create' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Create position</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @canany(['show-position', 'create-position'])
+                    <li class="nav-item {{ activeRoute(['admin.rule.index', 'admin.rule.create'], 'menu-open') }}">
+                        <a href="#"
+                           class="nav-link {{ activeRoute(['admin.rule.index', 'admin.rule.create'], 'active') }}">
+                            <i class="nav-icon fas fa-edit"></i>
+                            <p>
+                                Positions
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('show-position')
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.rule.index') }}"
+                                       class="nav-link {{ Route::currentRouteName() == 'admin.rule.index' ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All positions</p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('create-position')
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.rule.create') }}"
+                                       class="nav-link {{ Route::currentRouteName() == 'admin.rule.create' ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Create position</p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
 
                 {{-- Permissions panel--}}
-                <li class="nav-item {{ activeRoute(['admin.permission.index', 'admin.permission.create'], 'menu-open') }}">
-                    <a href="#" class="nav-link {{ activeRoute(['admin.permission.index', 'admin.permission.create'], 'active') }}">
-                        <i class="nav-icon fas fa-edit"></i>
-                        <p>
-                            Permissions
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.permission.index') }}" class="nav-link {{ Route::currentRouteName() == 'admin.permission.index' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All permissions</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.permission.create') }}" class="nav-link {{ Route::currentRouteName() == 'admin.permission.create' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Create permission</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @canany(['show-permission', 'create-permission'])
+                    <li class="nav-item {{ activeRoute(['admin.permission.index', 'admin.permission.create'], 'menu-open') }}">
+                        <a href="#"
+                           class="nav-link {{ activeRoute(['admin.permission.index', 'admin.permission.create'], 'active') }}">
+                            <i class="nav-icon fas fa-edit"></i>
+                            <p>
+                                Permissions
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('show-permission')
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.permission.index') }}"
+                                       class="nav-link {{ Route::currentRouteName() == 'admin.permission.index' ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All permissions</p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('create-permission')
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.permission.create') }}"
+                                       class="nav-link {{ Route::currentRouteName() == 'admin.permission.create' ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Create permission</p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
                 <li class="nav-item">
                     <a href="pages/widgets.html" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>

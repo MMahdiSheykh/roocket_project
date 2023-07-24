@@ -13,10 +13,14 @@
 
                     <div class="card-tools d-flex align-items-center">
                         <div>
-                            <a href="{{ request()->fullUrlWithQuery(['admin' => 1]) }}"
-                               class="btn btn-primary btn-sm mr-1">Admins</a>
-                            <a href="{{ request()->fullUrlWithQuery(['staff' => 1]) }}"
-                               class="btn btn-primary btn-sm mr-3">Staffs</a>
+                            @can('see-admin-button')
+                                <a href="{{ request()->fullUrlWithQuery(['admin' => 1]) }}"
+                                   class="btn btn-primary btn-sm mr-1">Admins</a>
+                            @endcan
+                            @can('see-staff-button')
+                                <a href="{{ request()->fullUrlWithQuery(['staff' => 1]) }}"
+                                   class="btn btn-primary btn-sm mr-3">Staffs</a>
+                            @endcan
                         </div>
                         <form action="" method="get">
                             <div class="input-group input-group-sm" style="width: 200px;">
@@ -63,23 +67,23 @@
                                     </td>
                                 @endif
                                 <td class="d-flex">
-                                    @can('staff-user-permission')
-                                    @if(($user->is_staff == 1) or ($user->is_admin == 1))
-                                    <a href="{{ route('admin.users.permissions', $user->id) }}"
-                                       class="btn btn-md btn-outline-secondary mr-2">Permissions</a>
-                                    @endif
+                                    @can('see-permission-button')
+                                        @if(($user->is_staff == 1))
+                                            <a href="{{ route('admin.users.permissions', $user->id) }}"
+                                               class="btn btn-md btn-outline-secondary mr-2">Permissions</a>
+                                        @endif
                                     @endcan
-                                    @can('edit-users')
-                                    <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}"
-                                       class="btn btn-md btn-outline-primary mr-2">Edit</a>
+                                    @can('edit-user')
+                                        <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}"
+                                           class="btn btn-md btn-outline-primary mr-2">Edit</a>
                                     @endcan
-                                    @can('delete-users')
-                                            <form action="{{ route('admin.users.destroy', ['user' => $user->id]) }}"
-                                                  method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-outline-danger" type="submit">Delete</button>
-                                            </form>
+                                    @can('delete-user')
+                                        <form action="{{ route('admin.users.destroy', ['user' => $user->id]) }}"
+                                              method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-outline-danger" type="submit">Delete</button>
+                                        </form>
                                     @endcan
                                 </td>
                             </tr>

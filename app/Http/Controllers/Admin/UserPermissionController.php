@@ -10,6 +10,11 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class UserPermissionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:see-permission-button');
+    }
+
     public function create(User $user)
     {
         return view('admin.users.permissions', compact('user'));

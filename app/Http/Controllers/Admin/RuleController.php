@@ -9,6 +9,14 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class RuleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:show-position')->only(['index']);
+        $this->middleware('can:create-position')->only(['create', 'store']);
+        $this->middleware('can:edit-position')->only(['edit', 'update']);
+        $this->middleware('can:delete-position')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */
