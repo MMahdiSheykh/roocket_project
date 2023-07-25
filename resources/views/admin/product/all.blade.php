@@ -38,6 +38,7 @@
                             <th>Name</th>
                             <th>Description</th>
                             <th>Price</th>
+                            <th>Inventory</th>
                             <th>View count</th>
                             <th>Actions</th>
                         </tr>
@@ -49,26 +50,21 @@
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->description }}</td>
                                 <td>{{ $product->price }}</td>
+                                <td>{{ $product->inventory }}</td>
                                 <td>{{ $product->view_count }}</td>
                                 <td class="d-flex">
-{{--                                    @can('see-permission-button')--}}
-{{--                                        @if(($product->is_staff == 1))--}}
-{{--                                            <a href="{{ route('admin.users.permissions', $product->id) }}"--}}
-{{--                                               class="btn btn-md btn-outline-secondary mr-2">Permissions</a>--}}
-{{--                                        @endif--}}
-{{--                                    @endcan--}}
-{{--                                    @can('edit-user')--}}
-                                        <a href="{{ route('admin.users.edit', ['product' => $product->id]) }}"
+                                    @can('edit-product')
+                                        <a href="{{ route('admin.product.edit', ['product' => $product->id]) }}"
                                            class="btn btn-md btn-outline-primary mr-2">Edit</a>
-{{--                                    @endcan--}}
-{{--                                    @can('delete-user')--}}
-                                        <form action="{{ route('admin.users.destroy', ['product' => $product->id]) }}"
+                                    @endcan
+                                    @can('delete-product')
+                                        <form action="{{ route('admin.product.destroy', ['product' => $product->id]) }}"
                                               method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-outline-danger" type="submit">Delete</button>
                                         </form>
-{{--                                    @endcan--}}
+                                    @endcan
                                 </td>
                             </tr>
                             </tbody>
@@ -77,7 +73,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                    {{ $products->render() }}
+                    {{ $products->appends(['search' => request('search') ])->render() }}
                 </div>
             </div>
             <!-- /.card -->

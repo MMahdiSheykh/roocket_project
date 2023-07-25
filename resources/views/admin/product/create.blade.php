@@ -25,17 +25,24 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 col-form-label">Description</label>
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">product description</label>
                             <div class="col-sm-10">
                                 <input type="text" name="description" class="form-control" id="inputEmail3"
                                        placeholder="Enter your product description">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputPassword3" class="col-sm-2 col-form-label">Price</label>
+                            <label for="inputPassword3" class="col-sm-2 col-form-label">Product price</label>
                             <div class="col-sm-10">
-                                <input type="text" name="price" class="form-control" id="inputPassword3"
+                                <input type="number" name="price" class="form-control" id="inputPassword3"
                                        placeholder="Enter your product price">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword3" class="col-sm-2 col-form-label">Product inventory</label>
+                            <div class="col-sm-10">
+                                <input type="number" name="inventory" class="form-control" id="inputPassword3"
+                                       placeholder="Enter your product inventory">
                             </div>
                         </div>
                         <div class="card-footer">

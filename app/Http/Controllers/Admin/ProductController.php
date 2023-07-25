@@ -43,55 +43,55 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
-//        dd($request);
         // validating date
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'description' => ['string', 'max:1000'],
+            'description' => ['required', 'string', 'max:1000'],
             'price' => ['required', 'integer'],
-            'inventory' => ''
+            'inventory' => ['integer'],
         ]);
 
-
-        // temp value for inventory field
-//        $data = ['inventory' => 0];
-
-        Product::create($data);
+        auth()->user()->products()->create($data);
 
         Alert::success('Well done!', 'Your product has been created successfully');
         return redirect(route('admin.product.index'));
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+        return view('admin.product.edit', compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        // validating date
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:1000'],
+            'price' => ['required', 'integer'],
+            'inventory' => ['integer'],
+        ]);
+
+        $product->update($data);
+
+        Alert::success('Well done!', 'Your product has been updated successfully');
+        return redirect(route('admin.product.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        Alert::success('Well done!', 'Your product has been deleted successfully');
+        return redirect(route('admin.product.index'));
     }
 }

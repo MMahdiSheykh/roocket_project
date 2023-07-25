@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthTokenController;
 use App\Http\Controllers\auth\GoogleAuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Models\ActiveCode;
 use Illuminate\Support\Facades\Auth;
@@ -49,3 +50,10 @@ Route::prefix('profile')->middleware('auth')->group(function () {
         Route::post('phone', [ProfileController::class, 'postPhoneVerify']);
     });
 });
+
+Route::prefix('product')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::get('{product}', [ProductController::class, 'single']);
+});
+
+Route::post('/', [HomeController::class, 'comment'])->name('send.comment');

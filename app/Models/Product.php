@@ -16,4 +16,9 @@ class Product extends Model
         'inventory',
         'view_count'
     ];
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

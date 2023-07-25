@@ -81,6 +81,9 @@
         @yield('content')
     </main>
 </div>
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('plugins/jquery/jquery.js') }}"></script>
+<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.js') }}"></script>
 @include('sweetalert::alert')
 </body>
 </html>

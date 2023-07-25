@@ -157,7 +157,7 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-{{--                        @can('show-permission')--}}
+                        @can('show-product')
                             <li class="nav-item">
                                 <a href="{{ route('admin.product.index') }}"
                                    class="nav-link {{ Route::currentRouteName() == 'admin.product.index' ? 'active' : '' }}">
@@ -165,8 +165,8 @@
                                     <p>All products</p>
                                 </a>
                             </li>
-{{--                        @endcan--}}
-{{--                        @can('create-permission')--}}
+                        @endcan
+                        @can('create-product')
                             <li class="nav-item">
                                 <a href="{{ route('admin.product.create') }}"
                                    class="nav-link {{ Route::currentRouteName() == 'admin.product.create' ? 'active' : '' }}">
@@ -174,7 +174,7 @@
                                     <p>Create products</p>
                                 </a>
                             </li>
-{{--                        @endcan--}}
+                        @endcan
                     </ul>
                 </li>
 

@@ -15,4 +15,4 @@ Route::get('users/{user}/permission', [UserPermissionController::class, 'create'
 Route::post('users/{user}/permission', [UserPermissionController::class, 'store'])->name('users.permissions.store');
 Route::resource('permission', PermissionController::class);
 Route::resource('rule', RuleController::class);
-Route::resource('product', ProductController::class);
+Route::resource('product', ProductController::class)->except(['show']);

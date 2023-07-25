@@ -82,6 +82,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Permission::class);
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
     public function hasRule($rules)
     {
         return (!! $rules->intersect($this->rules)->all());
@@ -90,5 +95,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasPermission($permission)
     {
         return $this->hasRule($permission->rules) || $this->permissions->contains('name', $permission->name);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }
