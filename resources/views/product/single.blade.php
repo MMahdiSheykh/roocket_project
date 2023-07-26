@@ -2,54 +2,40 @@
 
 @section('script')
     <script>
-        // $('#sendComment').on('show.bs.modal', function (event) {
-        //     var button = $(event.relatedTarget) // Button that triggered the modal
-        //
-        //     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        //     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        //     var modal = $(this)
-        // })
-        //
-        // document.querySelector('#sendCommentForm').addEventListener('submit', function (event) {
-        //     event.preventDefault();
-        //     console.log('Ok');
-        // })
-
-        window.onload = function() {
+        window.onload = function () {
             $('#sendComment').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget); // Button that triggered the modal
-
-                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var button = $(event.relatedTarget);
+                var parent_id = button.data('id');
                 var modal = $(this);
+                modal.find('input[name="parent_id"]').val(parent_id)
             });
 
             document.querySelector('#sendCommentForm').addEventListener('submit', function (event) {
                 event.preventDefault();
                 let target = event.target;
                 let data = {
-                    commentable_id : target.querySelector('input[name="commentable_id"]').value,
-                    commentable_type : target.querySelector('input[name="commentable_type"]').value,
-                    parent_id : target.querySelector('input[name="parent_id"]').value,
-                    comment : target.querySelector('textarea[name="comment"]').value
+                    commentable_id: target.querySelector('input[name="commentable_id"]').value,
+                    commentable_type: target.querySelector('input[name="commentable_type"]').value,
+                    parent_id: target.querySelector('input[name="parent_id"]').value,
+                    comment: target.querySelector('textarea[name="comment"]').value
                 }
 
                 $.ajaxSetup({
-                    headers : {
-                        'X-CSRF-TOKEN' : document.head.querySelector('meta[name="csrf-token"]').content
+                    headers: {
+                        'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+                        'Content-Type': 'application/json'
                     }
                 })
 
                 $.ajax({
-                    type : 'POST',
-                    url : '/comments',
-                    data : JSON.stringify(data),
-                    success : function (data) {
-                        console.log(data)
+                    type: 'POST',
+                    url: '/comments',
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        window.location.reload()
                     }
                 })
             })
-
         };
 
     </script>
@@ -107,41 +93,17 @@
                 <div class="d-flex align-items-center justify-content-between">
                     <h4 class="mt-4">Comments</h4>
                     @auth
-                        <span class="btn btn-primary" data-toggle="modal" data-target="#sendComment" data-id="1"
+                        <span class="btn btn-primary mt-3" data-toggle="modal" data-target="#sendComment" data-id="0"
                               data-type="product">Leave comment</span>
                     @endauth
-
                 </div>
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between">
-                        <div class="commenter">
-                            <span>Commenter's name</span>
-                            <span class="text-muted">2 min a go</span>
-                        </div>
-                        @auth
-                            <span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sendComment"
-                                  data-id="2"
-                                  data-type="product">Recomment</span>
-                        @endauth
-                    </div>
 
-                    <div class="card-body">
-                        It looks beautiful!
+                @guest
+                    <div class="alert alert-warning">Please login to post a comment !</div>
+                @endguest
 
-                        <div class="card mt-3">
-                            <div class="card-header d-flex justify-content-between">
-                                <div class="commenter">
-                                    <span>Commenter</span>
-                                    <span class="text-muted">2 min a go</span>
-                                </div>
-                            </div>
+                @include('layouts.comments', ['comments' => $product->comments()->where('parent_id', 0)->get()])
 
-                            <div class="card-body">
-                                It looks beautiful!
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

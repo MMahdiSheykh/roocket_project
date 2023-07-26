@@ -56,4 +56,4 @@ Route::prefix('product')->group(function () {
     Route::get('{product}', [ProductController::class, 'single']);
 });
 
-Route::post('/', [HomeController::class, 'comment'])->name('send.comment');
+Route::post('/comments', [HomeController::class, 'comment'])->name('send.comment');

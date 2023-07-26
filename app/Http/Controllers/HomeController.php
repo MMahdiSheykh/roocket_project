@@ -37,8 +37,9 @@ class HomeController extends Controller
             "comment" => ["required"],
         ]);
 
-        Alert::success('Well done!', 'Your comment has been saved successfully');
+
         auth()->user()->comments()->create($validData);
+        Alert::success('Well done!', 'Your comment has been saved successfully');
 
         return back();
     }

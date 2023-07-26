@@ -178,6 +178,30 @@
                     </ul>
                 </li>
 
+                {{-- Comments panel --}}
+                <li class="nav-item {{ activeRoute(['admin.comments.index'], 'menu-open') }}">
+                    <a href="#"
+                       class="nav-link {{ activeRoute(['admin.comments.index'], 'active') }}">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>
+                            Comments
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @can('show-comment')
+                            <li class="nav-item">
+                                <a href="{{ route('admin.comments.index') }}"
+                                   class="nav-link {{ Route::currentRouteName() == 'admin.comments.index' ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Comments</p>
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+
+
                 <li class="nav-item">
                     <a href="pages/widgets.html" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>

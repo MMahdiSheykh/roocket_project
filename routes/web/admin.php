@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RuleController;
 use App\Http\Controllers\Admin\UserPermissionController;
 use App\Http\Controllers\Admin\UsersController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function() {
     return view('admin.index');
@@ -16,3 +18,7 @@ Route::post('users/{user}/permission', [UserPermissionController::class, 'store'
 Route::resource('permission', PermissionController::class);
 Route::resource('rule', RuleController::class);
 Route::resource('product', ProductController::class)->except(['show']);
+
+Route::get('comments/unapproved', [CommentController::class, 'unapproved'])->name('comments.unapproved');
+Route::resource('comments', CommentController::class)->only(['index', 'update', 'destroy']);
+
