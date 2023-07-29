@@ -32,8 +32,9 @@ class CommentController extends Controller
             $comments = Comment::query();
 
             $comments->where('comment', 'LIKE', "%{$result}%")
-                ->orWhere('user_id', $result)
-                ->orWhere('id', $result);
+                ->orWhereHas('user', function ($query) use ($result) {
+                    $query->where('name', 'LIKE', "%{$result}%");
+                });
 
             $comments = $comments->paginate(20);
         }
@@ -77,11 +78,5 @@ class CommentController extends Controller
 
         Alert::success('Well done!', 'The comment has been deleted successfully');
         return back();
-    }
-
-    public function unapproved()
-    {
-        $comments = Comment::where('approved', 0)->paginate(20);
-        return view('admin.comment.unapproved', compact('comments'));
     }
 }
