@@ -13,9 +13,9 @@
 
                     <div class="card-tools d-flex align-items-center">
                         <div>
-                            <a href="{{ request()->fullUrlWithQuery(['approved' => 1]) }}"
+                            <a href="{{ request()->fullUrlWithQuery(['approved' => 'approved']) }}"
                                class="btn btn-primary btn-sm mr-1">Approved</a>
-                            <a href="{{ request()->fullUrlWithQuery(['approved' => 0]) }}"
+                            <a href="{{ request()->fullUrlWithQuery(['approved' => 'unapproved']) }}"
                                class="btn btn-primary btn-sm mr-3">Unapproved</a>
                         </div>
                         <form action="" method="get">
@@ -33,57 +33,55 @@
                     </div>
                 </div>
 
-
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap text-center">
                         <thead>
                         <tr>
-                            <th>User ID</th>
+                            <th>Commenter</th>
                             <th>Parent ID</th>
                             <th>Reference</th>
                             <th>Content</th>
-                            <th>Approved</th>
+                            <th>Approve</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         @foreach ($comments as $comment)
                             <tbody>
                             <tr>
-                                <td>{{ $comment->user_id }}</td>
+                                <td>{{ $comment->user->name }}</td>
                                 <td>{{ $comment->parent_id }}</td>
                                 <td>{{ $comment->commentable_id }}</td>
                                 <td>{{ $comment->comment }}</td>
-                                <td>{{ $comment->approved }}</td>
-{{--                                @if ($comment-> != null)--}}
-{{--                                    <td>--}}
-{{--                                            <span class="badge badge-success">Verified at--}}
-{{--                                                {{ $user->email_verified_at->format('Y/m/d') }}</span>--}}
-{{--                                    </td>--}}
-{{--                                @else--}}
-{{--                                    <td>--}}
-{{--                                        <span class="badge badge-danger">Not verified</span>--}}
-{{--                                    </td>--}}
-{{--                                @endif--}}
+                                <td>
+                                    @if($comment->approved == 1)
+                                        <span class="badge badge-success">Approved</span>
+                                    @else
+                                        <span class="badge badge-danger">Unapproved</span>
+                                    @endif
+                                </td>
                                 <td class="d-flex">
-{{--                                    @can('see-permission-button')--}}
-{{--                                        @if(($user->is_staff == 1))--}}
-{{--                                            <a href="{{ route('admin.users.permissions', $user->id) }}"--}}
-{{--                                               class="btn btn-md btn-outline-secondary mr-2">Permissions</a>--}}
-{{--                                        @endif--}}
-{{--                                    @endcan--}}
-{{--                                    @can('edit-user')--}}
-                                        <a href="{{ route('admin.comments.update', $comment->id) }}"
-                                           class="btn btn-md btn-outline-primary mr-2">Approve</a>
-{{--                                    @endcan--}}
-{{--                                    @can('delete-user')--}}
-                                        <form action="{{ route('admin.comments.destroy', ['comment' => $comment->id]) }}"
-                                              method="POST">
+                                    @if($comment->approved == 0)
+                                        <form action="{{ route('admin.comments.update', $comment->id) }}" method="post">
                                             @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-outline-danger" type="submit">Delete</button>
+                                            @method('patch')
+                                            <button class="btn btn-primary mr-2" type="submit">Approve</button>
                                         </form>
-{{--                                    @endcan--}}
+                                    @else
+                                        <form action="{{ route('admin.comments.update', $comment->id) }}" method="post">
+                                            @csrf
+                                            @method('patch')
+                                            <button class="btn btn-outline-primary mr-2" type="submit">Not approve
+                                            </button>
+                                        </form>
+                                    @endif
+                                    <form
+                                        action="{{ route('admin.comments.destroy', ['comment' => $comment->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-outline-danger" type="submit">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                             </tbody>

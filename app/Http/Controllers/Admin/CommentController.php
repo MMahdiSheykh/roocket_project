@@ -7,6 +7,9 @@ use App\Models\Comment;
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use function PHPUnit\Framework\isFalse;
+use function PHPUnit\Framework\isNull;
+use function PHPUnit\Framework\isTrue;
 
 class CommentController extends Controller
 {
@@ -16,6 +19,7 @@ class CommentController extends Controller
         $this->middleware('can:approve-comment')->only('update');
         $this->middleware('can:delete-comment')->only('destroy');
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -34,17 +38,15 @@ class CommentController extends Controller
             $comments = $comments->paginate(20);
         }
 
-        // show approved of unapproved
+        // show approved or unapproved
         if (request('approved')) {
             $comments = Comment::query();
-            // todo approved and unapproved buttons in the comments.all.blade.php
 
-            if (request('approved') == 1) {
+            if (request('approved') == 'approved') {
                 $comments->where('approved', '=', 1);
-            } else {
+            } elseif (request('approved') == 'unapproved') {
                 $comments->where('approved', '=', 0);
             }
-            dd($comments);
             $comments = $comments->paginate(20);
         }
 
@@ -56,7 +58,11 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        $comment->update(['approved' => 1]);
+        if ($comment->approved == 0) {
+            $comment->update(['approved' => 1]);
+        } else {
+            $comment->update(['approved' => 0]);
+        }
 
         Alert::success('Well done!', 'The comment has been approved successfully');
         return back();
