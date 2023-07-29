@@ -61,27 +61,33 @@
                                     @endif
                                 </td>
                                 <td class="d-flex">
-                                    @if($comment->approved == 0)
-                                        <form action="{{ route('admin.comments.update', $comment->id) }}" method="post">
+                                    @can('approve-comment')
+                                        @if($comment->approved == 0)
+                                            <form action="{{ route('admin.comments.update', $comment->id) }}"
+                                                  method="post">
+                                                @csrf
+                                                @method('patch')
+                                                <button class="btn btn-primary mr-2" type="submit">Approve</button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('admin.comments.update', $comment->id) }}"
+                                                  method="post">
+                                                @csrf
+                                                @method('patch')
+                                                <button class="btn btn-outline-primary mr-2" type="submit">Not approve
+                                                </button>
+                                            </form>
+                                        @endif
+                                    @endcan
+                                    @can('delete-comment')
+                                        <form
+                                            action="{{ route('admin.comments.destroy', ['comment' => $comment->id]) }}"
+                                            method="POST">
                                             @csrf
-                                            @method('patch')
-                                            <button class="btn btn-primary mr-2" type="submit">Approve</button>
+                                            @method('DELETE')
+                                            <button class="btn btn-outline-danger" type="submit">Delete</button>
                                         </form>
-                                    @else
-                                        <form action="{{ route('admin.comments.update', $comment->id) }}" method="post">
-                                            @csrf
-                                            @method('patch')
-                                            <button class="btn btn-outline-primary mr-2" type="submit">Not approve
-                                            </button>
-                                        </form>
-                                    @endif
-                                    <form
-                                        action="{{ route('admin.comments.destroy', ['comment' => $comment->id]) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-outline-danger" type="submit">Delete</button>
-                                    </form>
+                                    @endcan
                                 </td>
                             </tr>
                             </tbody>

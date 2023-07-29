@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
@@ -19,4 +20,4 @@ Route::resource('permission', PermissionController::class);
 Route::resource('rule', RuleController::class);
 Route::resource('product', ProductController::class)->except(['show']);
 Route::resource('comments', CommentController::class)->only(['index', 'update', 'destroy']);
-
+Route::resource('categories', CategoryController::class)->except(['show']);

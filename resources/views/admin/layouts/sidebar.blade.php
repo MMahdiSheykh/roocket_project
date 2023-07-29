@@ -147,59 +147,97 @@
                 @endcanany
 
                 {{-- Products panel --}}
-                <li class="nav-item {{ activeRoute(['admin.product.index', 'admin.product.create'], 'menu-open') }}">
-                    <a href="#"
-                       class="nav-link {{ activeRoute(['admin.product.index', 'admin.product.create'], 'active') }}">
-                        <i class="nav-icon fas fa-edit"></i>
-                        <p>
-                            Products
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        @can('show-product')
-                            <li class="nav-item">
-                                <a href="{{ route('admin.product.index') }}"
-                                   class="nav-link {{ Route::currentRouteName() == 'admin.product.index' ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>All products</p>
-                                </a>
-                            </li>
-                        @endcan
-                        @can('create-product')
-                            <li class="nav-item">
-                                <a href="{{ route('admin.product.create') }}"
-                                   class="nav-link {{ Route::currentRouteName() == 'admin.product.create' ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Create products</p>
-                                </a>
-                            </li>
-                        @endcan
-                    </ul>
-                </li>
+                @canany(['show-product', 'create-product'])
+                    <li class="nav-item {{ activeRoute(['admin.product.index', 'admin.product.create'], 'menu-open') }}">
+                        <a href="#"
+                           class="nav-link {{ activeRoute(['admin.product.index', 'admin.product.create'], 'active') }}">
+                            <i class="nav-icon fas fa-edit"></i>
+                            <p>
+                                Products
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('show-product')
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.product.index') }}"
+                                       class="nav-link {{ Route::currentRouteName() == 'admin.product.index' ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All products</p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('create-product')
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.product.create') }}"
+                                       class="nav-link {{ Route::currentRouteName() == 'admin.product.create' ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Create products</p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
 
                 {{-- Comments panel --}}
-                <li class="nav-item {{ activeRoute(['admin.comments.index'], 'menu-open') }}">
-                    <a href="#"
-                       class="nav-link {{ activeRoute(['admin.comments.index'], 'active') }}">
-                        <i class="nav-icon fas fa-edit"></i>
-                        <p>
-                            Comments
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        @can('show-comment')
-                            <li class="nav-item">
-                                <a href="{{ route('admin.comments.index') }}"
-                                   class="nav-link {{ Route::currentRouteName() == 'admin.comments.index' ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>All Comments</p>
-                                </a>
-                            </li>
-                        @endcan
-                    </ul>
-                </li>
+                @can('show-comment')
+                    <li class="nav-item {{ activeRoute(['admin.comments.index'], 'menu-open') }}">
+                        <a href="#"
+                           class="nav-link {{ activeRoute(['admin.comments.index'], 'active') }}">
+                            <i class="nav-icon fas fa-edit"></i>
+                            <p>
+                                Comments
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('show-comment')
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.comments.index') }}"
+                                       class="nav-link {{ Route::currentRouteName() == 'admin.comments.index' ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Comments</p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+                {{-- Categoreis panel --}}
+{{--                @canany(['show-product', 'create-product'])--}}
+                    <li class="nav-item {{ activeRoute(['admin.categories.index', 'admin.categories.create'], 'menu-open') }}">
+                        <a href="#"
+                           class="nav-link {{ activeRoute(['admin.categories.index', 'admin.categories.create'], 'active') }}">
+                            <i class="nav-icon fas fa-edit"></i>
+                            <p>
+                                Categories
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+{{--                            @can('show-product')--}}
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.categories.index') }}"
+                                       class="nav-link {{ Route::currentRouteName() == 'admin.categories.index' ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All categories</p>
+                                    </a>
+                                </li>
+{{--                            @endcan--}}
+{{--                            @can('create-product')--}}
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.categories.create') }}"
+                                       class="nav-link {{ Route::currentRouteName() == 'admin.categories.create' ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Create category</p>
+                                    </a>
+                                </li>
+{{--                            @endcan--}}
+                        </ul>
+                    </li>
+{{--                @endcanany--}}
 
 
                 <li class="nav-item">

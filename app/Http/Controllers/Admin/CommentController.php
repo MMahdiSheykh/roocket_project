@@ -4,12 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
-use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
-use function PHPUnit\Framework\isFalse;
-use function PHPUnit\Framework\isNull;
-use function PHPUnit\Framework\isTrue;
 
 class CommentController extends Controller
 {
