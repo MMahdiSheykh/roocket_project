@@ -31,6 +31,8 @@
     <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css">
 
     @yield('head')
+
+    <livewire:styles />
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -107,5 +109,6 @@
     <script src="/dist/js/pages/dashboard.js"></script>
     @yield('script')
     @include('sweetalert::alert')
+    <livewire:scripts />
 </body>
 </html>
